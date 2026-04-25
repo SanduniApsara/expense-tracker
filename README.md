@@ -2,7 +2,7 @@
 
 > A modern, full-featured expense tracking web application with real-time analytics, budget management, and financial insights.
 
-🔗 **Live Demo:** https://sandunia.github.io/expense-tracker  
+🔗 Live Demo: https://sanduniapsara.github.io/expense-tracker/
 🔗 **Source Code:** https://github.com/SanduniApsara/expense-tracker  
 
 ---
