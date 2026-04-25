@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexus — Expense Intelligence</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">◈</span>
+      <span class="brand-name">NEXUS</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-view="dashboard">
+        <span class="nav-icon">⬡</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-view="expenses">
+        <span class="nav-icon">⬢</span>
+        <span>Expenses</span>
+      </a>
+      <a href="#" class="nav-item" data-view="budgets">
+        <span class="nav-icon">◎</span>
+        <span>Budgets</span>
+      </a>
+      <a href="#" class="nav-item" data-view="analytics">
+        <span class="nav-icon">◈</span>
+        <span>Analytics</span>
+      </a>
+      <a href="#" class="nav-item" data-view="recurring">
+        <span class="nav-icon">↻</span>
+        <span>Recurring</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="mood-meter">
+        <span class="mood-label">Financial Mood</span>
+        <div class="mood-bar-wrap">
+          <div class="mood-bar" id="moodBar"></div>
+        </div>
+        <span class="mood-emoji" id="moodEmoji">😐</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="search-wrap">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search expenses…" />
+          <span class="search-icon">⌕</span>
+        </div>
+        <button class="btn-primary pulse-btn" id="addExpenseBtn">+ Add Expense</button>
+        <div class="avatar">NK</div>
+      </div>
+    </header>
+
+    <!-- VIEWS -->
+    <div class="views-container">
+
+      <!-- DASHBOARD VIEW -->
+      <section class="view active" id="view-dashboard">
+        <div class="kpi-row" id="kpiRow"></div>
+        <div class="dashboard-grid">
+          <div class="card card--chart" id="spendingChartCard">
+            <div class="card-header">
+              <h2>Spending Flow</h2>
+              <div class="chart-toggle">
+                <button class="chart-btn active" data-chart="bar">Bar</button>
+                <button class="chart-btn" data-chart="line">Line</button>
+              </div>
+            </div>
+            <canvas id="spendingChart" height="220"></canvas>
+          </div>
+          <div class="card card--donut" id="categoryCard">
+            <div class="card-header"><h2>By Category</h2></div>
+            <canvas id="categoryChart" height="220"></canvas>
+            <div class="legend" id="categoryLegend"></div>
+          </div>
+          <div class="card card--activity">
+            <div class="card-header"><h2>Recent Activity</h2></div>
+            <ul class="activity-list" id="recentList"></ul>
+          </div>
+          <div class="card card--insight">
+            <div class="card-header"><h2>AI Insight ✦</h2></div>
+            <div class="insight-body" id="insightBody">
+              <div class="insight-loading">Analyzing your patterns…</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPENSES VIEW -->
+      <section class="view" id="view-expenses">
+        <div class="expenses-toolbar">
+          <div class="filter-chips" id="filterChips"></div>
+          <div class="sort-wrap">
+            <label>Sort:</label>
+            <select id="sortSelect" class="select-field">
+              <option value="date-desc">Newest First</option>
+              <option value="date-asc">Oldest First</option>
+              <option value="amount-desc">Highest Amount</option>
+              <option value="amount-asc">Lowest Amount</option>
+            </select>
+          </div>
+        </div>
+        <div class="expense-table-wrap">
+          <table class="expense-table" id="expenseTable">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Tags</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="expenseTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- BUDGETS VIEW -->
+      <section class="view" id="view-budgets">
+        <div class="budget-grid" id="budgetGrid"></div>
+        <button class="btn-secondary mt-2" id="addBudgetBtn">+ New Budget</button>
+      </section>
+
+      <!-- ANALYTICS VIEW -->
+      <section class="view" id="view-analytics">
+        <div class="analytics-grid">
+          <div class="card">
+            <div class="card-header"><h2>Monthly Comparison</h2></div>
+            <canvas id="monthlyCompareChart" height="260"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-header"><h2>Top Spending Days</h2></div>
+            <canvas id="heatmapChart" height="260"></canvas>
+          </div>
+          <div class="card card--wide">
+            <div class="card-header"><h2>Category Trend (6 Months)</h2></div>
+            <canvas id="trendChart" height="220"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- RECURRING VIEW -->
+      <section class="view" id="view-recurring">
+        <div class="recurring-grid" id="recurringGrid"></div>
+        <button class="btn-secondary mt-2" id="addRecurringBtn">+ Add Recurring</button>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ADD EXPENSE MODAL -->
+  <div class="modal-overlay" id="expenseModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">New Expense</h2>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="expDesc" class="input-field" placeholder="e.g. Lunch at Cargills" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Amount (LKR)</label>
+            <input type="number" id="expAmount" class="input-field" placeholder="0.00" />
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="expDate" class="input-field" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <div class="category-picker" id="categoryPicker"></div>
+        </div>
+        <div class="form-group">
+          <label>Payment Method</label>
+          <select id="expPayment" class="select-field">
+            <option>Cash</option>
+            <option>Card</option>
+            <option>Mobile Pay</option>
+            <option>Bank Transfer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tags (comma separated)</label>
+          <input type="text" id="expTags" class="input-field" placeholder="e.g. work, lunch, essential" />
+        </div>
+        <div class="form-group">
+          <label>Note</label>
+          <textarea id="expNote" class="input-field textarea" placeholder="Optional note…"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="cancelBtn">Cancel</button>
+        <button class="btn-primary" id="saveExpenseBtn">Save Expense</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
