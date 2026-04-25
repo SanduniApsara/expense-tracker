@@ -58,6 +58,15 @@ expense-tracker/
 ├── ui.js # UI rendering helpers
 └── app.js # Main controller & event handling
 
+Screenshots
+
+<img width="1920" height="905" alt="dashboard png" src="https://github.com/user-attachments/assets/314c1b95-c82a-4664-a57b-cc825943b296" />
+<img width="1920" height="914" alt="analytics png" src="https://github.com/user-attachments/assets/9916e315-0235-4507-b22f-24c4adeddd03" />
+<img width="1920" height="889" alt="budgets png" src="https://github.com/user-attachments/assets/fd672026-ba1a-4068-91a2-6f09626a7029" />
+
+
+
+
 👩‍💻 Author
 
 Sanduni Apsara
